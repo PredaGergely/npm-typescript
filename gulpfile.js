@@ -7,6 +7,8 @@ const tsify = require('tsify');
 const gulpTypings = require('gulp-typings');
 const source = require('vinyl-source-stream');
 const runSequence = require('run-sequence');
+const watch = require('gulp-watch');
+const jasmineBrowser = require('gulp-jasmine-browser');
 
 function createBrowserifier(entry) {
     return browserify({
@@ -43,10 +45,24 @@ gulp.task('tsc-browserify-src', () => {
         'javascript');
 });
 
+gulp.task('tsc-browserify-test', () => {
+    return bundle(
+        createBrowserifier('./typescript/test/test.ts'),
+        'testbundle.js',
+        'javascript/test');
+});
+
+gulp.task('run-jasmine', () => {
+    gulp.src(['', 'javascript/test/testbundle.js'])
+        .pipe(watch('javascript/test/testbundle.js'))
+        .pipe(jasmineBrowser.specRunner())
+        .pipe(jasmineBrowser.server({ port: 8888 }));
+});
+
 gulp.task('default', () => {
-    runSequence(['clean', 'installTypings'], 'tsc-browserify-src', () => {
-    console.log('Watching...');
-    gulp.watch(['typescript/**/*.ts'],
-        ['tsc-browserify-src']);
+    runSequence(['clean', 'installTypings'], 'tsc-browserify-src', 'tsc-browserify-test', () => {
+        console.log('Watching...');
+        gulp.watch(['typescript/**/*.ts'],
+            ['tsc-browserify-src', 'tsc-browserify-test']);
     });
 });

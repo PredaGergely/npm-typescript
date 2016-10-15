@@ -1,5 +1,6 @@
 {
   "globalDependencies": {
+    "jasmine": "registry:dt/jasmine#2.5.0+20161003201800",
     "knockout": "registry:dt/knockout#0.0.0+20160914182733"
   }
 }

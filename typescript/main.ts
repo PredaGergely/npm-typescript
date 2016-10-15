@@ -1,6 +1,4 @@
 import * as ko from 'knockout';
+import {ViewModel} from './viewmodel';
 
-class ViewModel {
-    words = ko.observableArray(['Hello', 'There', 'World']);
-}
 ko.applyBindings(new ViewModel());
