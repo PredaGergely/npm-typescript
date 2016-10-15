@@ -12,8 +12,16 @@
 hs_err_pid*
 
 node_modules
+typings
 
 # Intellij
 .idea/
 *.iml
 *.iws
+
+#TypeScript
+typescript/*.map
+typescript/*.js
+
+#Browserify
+javascript/bundle.js

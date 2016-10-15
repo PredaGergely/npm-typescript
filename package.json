@@ -1,0 +1,22 @@
+{
+  "name": "npm-typescript",
+  "version": "1.0.0",
+  "description": "Tutorial project for Knockout and Typescript",
+  "main": "typescript/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PredaGergely/npm-typescript.git"
+  },
+  "author": "Préda Gergely",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PredaGergely/npm-typescript/issues"
+  },
+  "homepage": "https://github.com/PredaGergely/npm-typescript#readme",
+  "dependencies": {
+    "knockout": "^3.4.0"
+  }
+}
