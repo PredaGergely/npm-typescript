@@ -4,8 +4,9 @@
     "moduleResolution": "node",
     "sourceMap": true
   },
-  "files": [
-    "./typings/index.d.ts",
-    "./typescript/main.ts"
+  "exclude": [
+    "node_modules",
+    "javascript",
+    "view"
   ]
 }
