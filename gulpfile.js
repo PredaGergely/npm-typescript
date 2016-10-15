@@ -9,6 +9,7 @@ const source = require('vinyl-source-stream');
 const runSequence = require('run-sequence');
 const watch = require('gulp-watch');
 const jasmineBrowser = require('gulp-jasmine-browser');
+const argv = require('yargs').argv;
 
 function createBrowserifier(entry) {
     return browserify({
@@ -18,12 +19,16 @@ function createBrowserifier(entry) {
         cache: {},
         packageCache: {}
     })
-        .plugin(tsify)
-        .plugin(watchify)
-        .plugin(errorify);
+        .plugin(tsify);
 }
 
 function bundle(browserifier, bundleName, destination) {
+    // putting the plugins here, if the ---dev flag is added to the gulp command
+    if (argv.dev) {
+        browserifier
+            .plugin(watchify)
+            .plugin(errorify);
+    }
     return browserifier
         .bundle()
         .pipe(source(bundleName))
@@ -59,10 +64,15 @@ gulp.task('run-jasmine', () => {
         .pipe(jasmineBrowser.server({ port: 8888 }));
 });
 
-gulp.task('default', () => {
-    runSequence(['clean', 'installTypings'], 'tsc-browserify-src', 'tsc-browserify-test', () => {
-        console.log('Watching...');
-        gulp.watch(['typescript/**/*.ts'],
-            ['tsc-browserify-src', 'tsc-browserify-test']);
-    });
+gulp.task('default', (done) => {
+    runSequence(['clean', 'installTypings'], 'tsc-browserify-src',
+        'tsc-browserify-test', () => {
+            // and here
+            if (argv.dev) {
+                console.log('Watching...');
+                gulp.watch(['typescript/**/*.ts'], ['tsc-browserify-src',
+                    'tsc-browserify-test']);
+            }
+            done();
+        });
 });
